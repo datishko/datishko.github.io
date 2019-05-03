@@ -61,7 +61,13 @@ click.src = './sounds/click.mp3';
 click.autoplay = true;
 
 }
+const snoring = function(){
 
+    const snr = new Audio();
+    snr.src = './sounds/snoring.mp3';
+   snr.autoplay = true;
+
+}
 const drawGameField = function () {
 
     for (let x = 0; x <= canvas.width; x += side) {
@@ -287,7 +293,8 @@ const insertNumberMovie = function (e) {
     const inGameField = cage.location.gameFieldLocation;
     
     if (!allowed && inGameField === 1) {
-
+        
+        snoring();
         alert('Неверный ход! Попробуйте еще раз!');
         return;
 
