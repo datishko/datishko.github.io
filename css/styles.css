@@ -1,0 +1,57 @@
+body{
+
+background: linear-gradient(to top, steelblue, lightsteelblue);
+
+}
+
+.divs {
+
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	
+	padding: 10px;
+	box-shadow: 5px 5px 25px black;
+	border-radius: 10px;
+
+}
+
+#userpic-div{
+
+	text-align: center;
+	font-size: 12pt;
+	color: #4169E1;
+	min-height: 300px;
+}
+
+#tabs-div{
+
+min-height: 880px;
+font-size: 14pt;
+color: #4169E1;
+
+}
+
+#central{
+	
+	width: 70%;
+	min-height: 900px;
+	margin-left: 15%;
+	margin-top: 2.5%;
+	margin-bottom: 2.5%;
+	background-color: #eeeeee;
+	opacity: .6;
+	
+}
+
+#userpic-table{
+
+	width: 100%;	
+	color: #000080;
+
+}
+
+#avatar{
+	
+	background-image: url(../pics/avatar.jpg);
+	background-size: auto;
+
+}
