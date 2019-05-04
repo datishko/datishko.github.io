@@ -4,11 +4,11 @@ background: linear-gradient(to top, steelblue, lightsteelblue);
 
 }
 
-li{
+.pannel{
 	font-family: Georgia, 'Times New Roman', Times, serif;
 	font-size: 14pt;	
 	color: #191970;
-	font-weight: bold;
+	
 }
 .divs {
 
