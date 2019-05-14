@@ -14,6 +14,7 @@ let ennumberedCages = [[]];
 const chessKnight = new Image();
 chessKnight.src = './pics/chessKnight.png';
 let numberInCageCount = 0;
+let time = 0;
 
 // $(document).on('click', '#knights-move', function(){
 
@@ -33,26 +34,10 @@ $('#accordion').accordion({
 
 $(document).on('click', '#knights-move', function(){
 
-
-    canvasOffset = $('#myCanvas').offset();
-   
+    canvasOffset = $('#myCanvas').offset();   
 
 });
 
-
-
-const gameFieldBorder = {
-
-    leftTopX: side * 5,
-    leftTopY: side * 4,
-    leftBottomX: side * 5,
-    leftBottomY: side * 14,
-    rightTopX: side * 15,
-    rightTopY: side * 4,
-    rightBottomX: side * 15,
-    rightBottomY: side * 14
-
-};
 
 const clickSound = function(){
 
@@ -68,6 +53,70 @@ const snoring = function(){
    snr.autoplay = true;
 
 }
+
+const gameFieldBorder = {
+
+    leftTopX: side * 5,
+    leftTopY: side * 4,
+    leftBottomX: side * 5,
+    leftBottomY: side * 14,
+    rightTopX: side * 15,
+    rightTopY: side * 4,
+    rightBottomX: side * 15,
+    rightBottomY: side * 14
+
+};
+
+const rulesFieldBorder = {
+
+    pointX: side * 1,
+    pointY: side * 17,
+    height: side * 2,
+    width: side * 6
+
+};
+
+const onFieldClick = function(e){
+
+    let mouseX = e.pageX - canvasOffset.left;
+    let mouseY = e.pageY - canvasOffset.top;
+    const cage = currentCage(mouseX, mouseY);
+
+    if((cage.x >= 1 && cage.x < 7) && (cage.y >= 17 && cage.y <= 19)){
+
+        $('#my-modal-window').dialog({
+            width: 500,
+            height: 230, 
+            draggable: false,
+            title: 'Правила игры',
+            buttons: [
+                {
+                    text: "OK",
+                    click: function(){
+                        $(this).dialog('close');
+                    }
+                }
+            ]
+        }).empty().append(`<p>Делая ходы конем, нужно заполнить игровое поле числами от 1 до 100 таким образом, чтобы в каждой клеточке было по числу. 
+        Начинать можно с любой клеточки. На ход дается 15 сек.</p>`);
+
+    }
+}
+
+const drawRulesField = function(){
+
+context.save();
+context.fillStyle ="#8FBC8F";
+context.fillRect(rulesFieldBorder.pointX, rulesFieldBorder.pointY, rulesFieldBorder.width, rulesFieldBorder.height);
+context.restore();
+context.save();
+context.font = '20px Georgia';
+context.fillStyle = '#000080';
+context.fillText('Правила игры', rulesFieldBorder.pointX +  1.2 * side, rulesFieldBorder.pointY +  1.2 * side, side * 5, side);
+context.restore();
+
+}
+
 const drawGameField = function () {
 
     for (let x = 0; x <= canvas.width; x += side) {
@@ -108,9 +157,7 @@ const drawAmbient = function () {
     context.fillText("ХОД КОНЁМ", side * 7, side * 2, side * 7, side * 1);
     context.font = '20px Georgia';
     context.fillText("Текущее число:", side * 5, side * 16, side * 7, side * 1);
-    // context.fillText('нет', side * 9, side * 15, side, side);       
-
-
+   
 }
 
 const drawChangeNumber = function () {
@@ -125,6 +172,7 @@ const drawChangeNumber = function () {
 
 drawAmbient();
 drawGameField();
+drawRulesField();
 
 const currentCage = function (mouseX, mouseY) {
     
@@ -284,8 +332,11 @@ const moveOverCage = function (e) {
 
 }
 
+
+
 const insertNumberMovie = function (e) {
 
+    
     let mouseX = e.pageX - canvasOffset.left;
     let mouseY = e.pageY - canvasOffset.top;
     const cage = currentCage(mouseX, mouseY);
@@ -302,6 +353,7 @@ const insertNumberMovie = function (e) {
 
     if (inGameField === 1) {
         
+        clearTimeout(time);
         numberInCageCount += 1;
         drawChangeNumber();
 
@@ -314,7 +366,14 @@ const insertNumberMovie = function (e) {
         context.fillStyle = "black";
         context.clearRect(enteredCage.leftX + 1, enteredCage.topY + 1, side - 2, side - 2);
         context.fillText(numberInCageCount.toString(), enteredCage.leftX + 10, enteredCage.topY + 25, side, side);
+       
+        time = setTimeout(function(){
 
+            alert('Время для хода вышло. Игра закончена.');
+            location.reload();
+                        
+        }, 15000);    
+        
     }
     else {
 
@@ -324,8 +383,15 @@ const insertNumberMovie = function (e) {
 
 }   
 
+const clicker = function(e){
+
+    insertNumberMovie(e);
+    onFieldClick(e);
+
+}
+
 canvas.addEventListener('mousemove', moveOverCage);
-canvas.addEventListener('click', insertNumberMovie);
+canvas.addEventListener('click', clicker);
 
 
 });
